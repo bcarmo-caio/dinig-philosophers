@@ -1,0 +1,68 @@
+Caio Renato Bedulli do Carmo - 7102816
+Leonardo Schäffer            - 7278142
+
+As implementações das funções do monitor estão no arquivo ep3-caio-leonardo.py
+  na classe Monitor
+
+A classe Monitor tem como API para chamada externa os métodos:
+  GetChopstick(chopstick)
+     O argumento chopstick é qual "garfo" o filósofo quer pegar
+  PutChopstick(chopstick)
+     O argumento chopstick é qual "garfo" o filósofo quer por na mesa
+  MayEat()
+     Caso haja comida, decrementa em 1 e devolve true
+	 Caso contrário, devolve false
+  HasFood()
+     Devolve true caso haja comida na mesa
+	 Devolve false caso contrário
+
+Como funciona a classe Monitor:
+  Quando GetChopstick é chamado,
+   1) o monitor se auto trava
+   2.a) se o garfo não está sendo usado, marca-o como sendo usado, o monitor se
+          auto destrava e retorna. Isso significa que o filósofo que quis pegar
+		  o garfo conseguiu pegá-lo.
+   2.b) se o garfo está marcado como sendo usado, o monitor chama seu método
+          interno chamado wait(cs) /* cs é uma variável de condição. cs é 
+		  abreviação de chopstick */
+		wait(cs) trava o garfo em questão, coloca na fila o filósofo que quer
+		  usá-lo e incrementa o número dessa fila.
+		Depois o monitor se auto destrava, coloca a thread para dormir.
+		  destrava o garfo em questão.
+
+  Quando PutChopstick é chamdo,
+  1) o monitor se auto trava
+  2.a) se a fila de filósofos que querem usar esse garfo está vazia, o monitor
+         muda o estádo desse garfo para 'não está sendo usado' e se auto
+		 auto destrava.
+  2.b) senão, o monitor chama seu método intero signal(cs).
+       signal(cs) trava o garfo em questão, decrementa o números de filósofos
+	     que estão na fila esperando pelo garfo, acorda o primeiro filósofo da
+		 fila de espera para que possa pegar o garfo e o monitor se auto
+		 destrava.
+
+  Os métodos MayEat e HasFood já foram descritos.
+
+Juntamente com este leia-me estão:
+- Um arquivo descrevendo uma simulação com poucos filósofos com a opção 'U' e
+  uma simulação com poucos filósofos com a opção 'P'.
+  Pouco filósofos --> 10 filósofos com 1000 comidas.
+  Esse é o caso simples.
+
+- Um arquivo descrevendo uma simulação com muitos filósofos com a opção 'U' e
+  uma simulação com muitos filósofos com a opção 'P'.
+  Pouco filósofos --> 50 filófos com 10000 comidas.
+  Esse é o caso complexo.
+
+- O arquivo de entrada usado
+- Um arquivo png com o gráfico do caso simples modo U.
+- Um arquivo png com o gráfico do caso simples modo P.
+- Um arquivo png com o gráfico do caso complexo modo U.
+- Um arquivo png com o gráfico do caso complexo modo P.
+
+Os gráficos apresentados são bem condizentes com o que esperávamos.
+Nas simulações de modo U, a proporção de porções são bem parecidas e nas
+  simulações de modo P, a proporção de comida por filósofo respeitam o peso de
+  cada um.
+
+Fim do relatório.
